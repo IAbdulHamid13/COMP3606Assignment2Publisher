@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -38,10 +37,6 @@ class PermissionsActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
             )
-            if (SDK_INT >= 33) {
-                // Android 13 (API 33) requires the NEARBY_WIFI_DEVICES permission
-                perm += Manifest.permission.NEARBY_WIFI_DEVICES
-            }
 
             ActivityCompat.requestPermissions(this, perm, requestCode)
 
@@ -64,11 +59,6 @@ class PermissionsActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(
                 Manifest.permission.INTERNET
             ) == PackageManager.PERMISSION_GRANTED
-        if (SDK_INT >= 33) {
-            // If we're running on android SDK 33 or higher, we also need the NEARBY_WIFI_DEVICES permission
-            perm =
-                perm && checkSelfPermission(Manifest.permission.NEARBY_WIFI_DEVICES) == PackageManager.PERMISSION_GRANTED
-        }
         return perm
     }
 
