@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.gson.Gson
 import com.hivemq.client.mqtt.mqtt5.Mqtt5BlockingClient
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client
@@ -29,11 +30,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var studentIdEditText: EditText
     private lateinit var startButton: Button
     private lateinit var stopButton: Button
-    private val locationRequest = LocationRequest.create().apply {
-        interval = 5000
-        fastestInterval = 5000
-        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-    }
+    private val locationRequest =
+        LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 100).setMaxUpdateDelayMillis(120)
+            .setMinUpdateDistanceMeters(0f).build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
